@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { format } from 'date-fns';
+import { IconCheck, IconCheckCheck, IconFile } from './Icons';
 // import { decryptMessage } from '../utils/encryption';
 
 function ReadReceipt({ message, currentUserId, participantCount }) {
@@ -8,7 +9,7 @@ function ReadReceipt({ message, currentUserId, participantCount }) {
     const othersRead = readCount >= Math.min(participantCount, 2);
     return (
       <span className="read-receipt" title={`Read by ${readCount}`}>
-        {othersRead ? '✓✓' : '✓'}
+        {othersRead ? <IconCheckCheck width={14} height={14} /> : <IconCheck width={14} height={14} />}
       </span>
     );
   }
@@ -27,7 +28,7 @@ function MessageContent({ message, decryptedText }) {
   if (message.messageType === 'file') {
     return (
       <a href={message.fileUrl} target="_blank" rel="noreferrer" className="msg-file">
-        📄 {message.fileName || 'Download file'}
+        <IconFile width={16} height={16} /> {message.fileName || 'Download file'}
       </a>
     );
   }

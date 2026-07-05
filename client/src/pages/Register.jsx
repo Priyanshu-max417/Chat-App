@@ -27,50 +27,69 @@ export default function Register() {
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h1>Create account</h1>
-        <p className="auth-subtitle">Join ChatFlow in seconds</p>
-        {error && <div className="alert alert-error">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <label>
-            Username
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              minLength={3}
-              autoComplete="username"
-            />
-          </label>
-          <label>
-            Email
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              autoComplete="new-password"
-            />
-          </label>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? 'Creating...' : 'Sign up'}
-          </button>
-        </form>
-        <p className="auth-footer">
-          Already have an account? <Link to="/login">Sign in</Link>
-        </p>
+      <div className="auth-brand">
+        <div className="auth-brand-mark">ChatFlow</div>
+        <div className="auth-pulse" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="auth-brand-copy">
+          <h2>Start a conversation that stays in sync.</h2>
+          <p>Create your account and pick up right where you left off, on any device.</p>
+        </div>
+        <div className="auth-brand-foot">
+          <span className="presence online" />
+          Live connection
+        </div>
+      </div>
+
+      <div className="auth-form-side">
+        <div className="auth-card">
+          <h1>Create account</h1>
+          <p className="auth-subtitle">Join ChatFlow in seconds</p>
+          {error && <div className="alert alert-error">{error}</div>}
+          <form onSubmit={handleSubmit}>
+            <label>
+              Username
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                minLength={3}
+                autoComplete="username"
+              />
+            </label>
+            <label>
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </label>
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                autoComplete="new-password"
+              />
+            </label>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? 'Creating…' : 'Sign up'}
+            </button>
+          </form>
+          <p className="auth-footer">
+            Already have an account? <Link to="/login">Sign in</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

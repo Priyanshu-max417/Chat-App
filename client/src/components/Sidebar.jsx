@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { api } from '../utils/api';
+import { IconPlus, IconLogout } from './Icons';
 
 function getConversationTitle(conversation, currentUserId) {
   if (conversation.isGroup) {
@@ -74,11 +75,11 @@ export default function Sidebar({
           </span>
         </div>
         <div className="sidebar-actions">
-          <button type="button" className="btn btn-ghost btn-sm" onClick={onNewGroup} title="New group">
-            +
+          <button type="button" className="btn-icon icon-btn-dark" onClick={onNewGroup} title="New group">
+            <IconPlus width={18} height={18} />
           </button>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={onLogout}>
-            Logout
+          <button type="button" className="btn-icon icon-btn-dark" onClick={onLogout} title="Log out">
+            <IconLogout width={18} height={18} />
           </button>
         </div>
       </header>

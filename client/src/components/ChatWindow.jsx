@@ -5,6 +5,7 @@ import { useWebRTC } from '../hooks/useWebRTC';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import CallModal from './CallModal';
+import { IconChevronLeft, IconPhone, IconVideo } from './Icons';
 
 function getOtherParticipant(conversation, currentUserId) {
   if (conversation.isGroup) return null;
@@ -23,6 +24,7 @@ export default function ChatWindow({
   // encryptionEnabled,
   onConversationUpdate,
   notify,
+  onBack,
 }) {
   const { socket } = useSocket();
   const [messages, setMessages] = useState([]);
@@ -133,7 +135,12 @@ export default function ChatWindow({
     <section className="chat-window">
       <header className="chat-header">
         <div>
-          <h3>{getTitle(conversation, currentUser._id)}</h3>
+          <h3>
+            <button type="button" className="btn-icon chat-back" onClick={onBack} title="Back to chats">
+              <IconChevronLeft width={18} height={18} />
+            </button>
+            {getTitle(conversation, currentUser._id)}
+          </h3>
           {other && (
             <span className="presence-label">
               {other.isOnline ? 'Online' : 'Offline'}
@@ -144,19 +151,19 @@ export default function ChatWindow({
           <div className="call-buttons">
             <button
               type="button"
-              className="btn btn-ghost btn-sm"
+              className="btn-icon"
               onClick={() => webrtc.startCall(other._id, conversation._id, 'audio')}
               title="Voice call"
             >
-              📞
+              <IconPhone width={18} height={18} />
             </button>
             <button
               type="button"
-              className="btn btn-ghost btn-sm"
+              className="btn-icon"
               onClick={() => webrtc.startCall(other._id, conversation._id, 'video')}
               title="Video call"
             >
-              📹
+              <IconVideo width={18} height={18} />
             </button>
           </div>
         )}

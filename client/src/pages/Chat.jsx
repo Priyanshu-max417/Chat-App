@@ -68,7 +68,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="chat-app">
+    <div className={`chat-app ${activeConversation ? 'mobile-chat-open' : ''}`}>
       <Sidebar
         conversations={conversations}
         activeId={activeConversation?._id}
@@ -98,6 +98,7 @@ export default function Chat() {
             // encryptionEnabled={encryptionEnabled}
             onConversationUpdate={loadConversations}
             notify={notify}
+            onBack={() => setActiveConversation(null)}
           />
         ) : (
           <div className="chat-empty">

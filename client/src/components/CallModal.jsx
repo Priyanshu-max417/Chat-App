@@ -1,3 +1,5 @@
+import { IconPhone, IconVideo } from './Icons';
+
 export default function CallModal({
   callState,
   callType,
@@ -20,7 +22,14 @@ export default function CallModal({
   return (
     <div className="call-overlay">
       <div className="call-modal">
-        <h3>{title}</h3>
+        <h3 className="modal-title" style={{ justifyContent: 'center', color: 'inherit' }}>
+          {(incomingCall?.callType || callType) === 'video' ? (
+            <IconVideo width={18} height={18} />
+          ) : (
+            <IconPhone width={18} height={18} />
+          )}
+          {title}
+        </h3>
         <div className="call-videos">
           {remoteStream && (
             <video
@@ -58,6 +67,11 @@ export default function CallModal({
                   )
                 }
               >
+                {incomingCall?.callType === 'video' ? (
+                  <IconVideo width={16} height={16} />
+                ) : (
+                  <IconPhone width={16} height={16} />
+                )}
                 Accept
               </button>
               <button type="button" className="btn btn-danger" onClick={onReject}>

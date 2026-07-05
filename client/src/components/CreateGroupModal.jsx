@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../utils/api';
+import { IconCheck, IconClose, IconUsers } from './Icons';
 
 export default function CreateGroupModal({ onClose, onCreated }) {
   const [name, setName] = useState('');
@@ -59,7 +60,10 @@ export default function CreateGroupModal({ onClose, onCreated }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h2>Create group</h2>
+        <h2 className="modal-title">
+          <IconUsers width={20} height={20} />
+          Create group
+        </h2>
         {error && <div className="alert alert-error">{error}</div>}
         <form onSubmit={handleSubmit}>
           <label>
@@ -85,7 +89,7 @@ export default function CreateGroupModal({ onClose, onCreated }) {
                 <span key={u._id} className="chip">
                   {u.username}
                   <button type="button" onClick={() => toggleUser(u)}>
-                    ×
+                    <IconClose width={11} height={11} />
                   </button>
                 </span>
               ))}
@@ -94,9 +98,9 @@ export default function CreateGroupModal({ onClose, onCreated }) {
           <ul className="search-results">
             {results.map((u) => (
               <li key={u._id}>
-                <button type="button" onClick={() => toggleUser(u)}>
-                  {u.username}
-                  {selected.some((s) => s._id === u._id) ? ' ✓' : ''}
+                <button type="button" className="user-result" onClick={() => toggleUser(u)}>
+                  <span>{u.username}</span>
+                  {selected.some((s) => s._id === u._id) && <IconCheck width={15} height={15} />}
                 </button>
               </li>
             ))}

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { uploadFile } from '../utils/api';
+import { IconAttach, IconSend } from './Icons';
 // import { encryptMessage } from '../utils/encryption';
 
 export default function MessageInput({
@@ -85,12 +86,12 @@ export default function MessageInput({
       />
       <button
         type="button"
-        className="btn btn-icon"
+        className="btn-icon"
         onClick={() => fileRef.current?.click()}
         disabled={uploading}
         title="Attach file"
       >
-        {uploading ? '…' : '📎'}
+        {uploading ? '…' : <IconAttach width={19} height={19} />}
       </button>
       <input
         type="text"
@@ -100,6 +101,7 @@ export default function MessageInput({
         disabled={uploading}
       />
       <button type="submit" className="btn btn-primary" disabled={!text.trim() || uploading}>
+        <IconSend width={16} height={16} />
         Send
       </button>
     </form>
