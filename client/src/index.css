@@ -175,8 +175,8 @@ input {
 /* Chat layout */
 .chat-app {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow: visible;
 }
 
 .sidebar {
