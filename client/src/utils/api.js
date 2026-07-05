@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+import { API_BASE, buildApiUrl } from '../config/api';
 
 const getToken = () => localStorage.getItem('token');
 
@@ -13,7 +13,7 @@ export const api = async (path, options = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(buildApiUrl(path), {
     ...options,
     headers,
   });
@@ -32,7 +32,7 @@ export const uploadFile = async (file) => {
   formData.append('file', file);
 
   const token = getToken();
-  const res = await fetch(`${API_BASE}/upload`, {
+  const res = await fetch(buildApiUrl('/upload'), {
     method: 'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: formData,
