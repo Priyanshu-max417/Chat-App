@@ -697,6 +697,12 @@ img {
   padding: 4px 10px 14px;
 }
 
+.conversation-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .conversation-list li button {
   width: 100%;
   display: flex;
@@ -712,6 +718,22 @@ img {
 }
 .conversation-list li button:hover {
   background: var(--panel);
+}
+
+.delete-chat-btn {
+  padding: 6px 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 87, 87, 0.12);
+  color: #ff6b6b;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.delete-chat-btn:hover {
+  background: rgba(255, 87, 87, 0.2);
 }
 .conversation-list li button.active {
   background: var(--panel-2);
@@ -892,6 +914,10 @@ img {
   line-height: 1.45;
   box-shadow: var(--shadow-sm);
   word-break: break-word;
+}
+.message.selected .message-bubble {
+  outline: 2px solid rgba(255, 107, 107, 0.55);
+  outline-offset: 2px;
 }
 .message.theirs .message-bubble {
   background: var(--paper);

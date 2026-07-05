@@ -70,6 +70,36 @@ router.post('/:id/read', auth, async (req, res) => {
   }
 });
 
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const message = await Message.findById(req.params.id);
+    if (!message) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+
+    const conversation = await Conversation.findById(message.conversation);
+    if (!conversation?.participants.some((p) => p.equals(req.user._id))) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    if (!message.sender.equals(req.user._id)) {
+      return res.status(403).json({ message: 'Only the sender can delete this message' });
+    }
+
+    await Message.findByIdAndDelete(message._id);
+
+    if (conversation.lastMessage && conversation.lastMessage.equals(message._id)) {
+      const latestMessage = await Message.findOne({ conversation: conversation._id }).sort({ createdAt: -1 });
+      conversation.lastMessage = latestMessage?._id || null;
+      await conversation.save();
+    }
+
+    res.json({ success: true, messageId: message._id });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.post('/conversation/:id/read-all', auth, async (req, res) => {
   try {
     const conversation = await Conversation.findById(req.params.id);

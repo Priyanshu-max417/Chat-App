@@ -67,6 +67,16 @@ export default function Chat() {
     });
   };
 
+  const handleDeleteConversation = async (conversationId) => {
+    try {
+      await api(`/conversations/${conversationId}`, { method: 'DELETE' });
+      await loadConversations();
+      setActiveConversation((prev) => (prev?._id === conversationId ? null : prev));
+    } catch (error) {
+      console.error('Failed to delete conversation:', error);
+    }
+  };
+
   return (
     <div className={`chat-app ${activeConversation ? 'mobile-chat-open' : ''}`}>
       <Sidebar
@@ -76,6 +86,7 @@ export default function Chat() {
         onSelect={handleSelectConversation}
         onNewGroup={() => setShowGroupModal(true)}
         onLogout={logout}
+        onDeleteConversation={handleDeleteConversation}
         connected={connected}
       />
 

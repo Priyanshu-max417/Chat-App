@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { format } from 'date-fns';
+import { api } from '../utils/api';
 import { IconCheck, IconCheckCheck, IconFile } from './Icons';
 // import { decryptMessage } from '../utils/encryption';
 
@@ -41,9 +42,12 @@ export default function MessageList({
   currentUser,
   participantCount,
   onMessagesVisible,
+  onMessageDeleted,
 }) {
   const bottomRef = useRef(null);
   const [decrypted, setDecrypted] = useState({});
+  const [pressTimer, setPressTimer] = useState(null);
+  const [activeMessageId, setActiveMessageId] = useState(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -59,6 +63,32 @@ export default function MessageList({
     });
   }, [messages]);
 
+  const handleMessageLongPress = (message) => {
+    if (message.sender._id !== currentUser._id) return;
+
+    if (window.confirm('Delete this message?')) {
+      api(`/messages/${message._id}`, { method: 'DELETE' })
+        .then(() => onMessageDeleted?.())
+        .catch(() => {});
+    }
+  };
+
+  const startPress = (message) => {
+    const timer = window.setTimeout(() => {
+      handleMessageLongPress(message);
+    }, 450);
+    setPressTimer(timer);
+    setActiveMessageId(message._id);
+  };
+
+  const cancelPress = () => {
+    if (pressTimer) {
+      window.clearTimeout(pressTimer);
+    }
+    setPressTimer(null);
+    setActiveMessageId(null);
+  };
+
   return (
     <div className="message-list">
       {messages.map((msg) => {
@@ -66,7 +96,16 @@ export default function MessageList({
         const text = msg.content;
 
         return (
-          <div key={msg._id} className={`message ${isMine ? 'mine' : 'theirs'}`}>
+          <div
+            key={msg._id}
+            className={`message ${isMine ? 'mine' : 'theirs'} ${activeMessageId === msg._id ? 'selected' : ''}`}
+            onMouseDown={() => startPress(msg)}
+            onMouseUp={cancelPress}
+            onMouseLeave={cancelPress}
+            onTouchStart={() => startPress(msg)}
+            onTouchEnd={cancelPress}
+            onTouchCancel={cancelPress}
+          >
             {!isMine && (
               <span className="message-sender">{msg.sender.username}</span>
             )}

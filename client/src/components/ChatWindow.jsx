@@ -177,6 +177,7 @@ export default function ChatWindow({
           currentUser={currentUser}
           participantCount={conversation.participants.length}
           onMessagesVisible={handleMarkRead}
+          onMessageDeleted={loadMessages}
         />
       )}
 

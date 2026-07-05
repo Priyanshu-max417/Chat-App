@@ -81,6 +81,38 @@ router.post('/group', auth, async (req, res) => {
   }
 });
 
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const conversation = await Conversation.findById(req.params.id);
+    if (!conversation) {
+      return res.status(404).json({ message: 'Conversation not found' });
+    }
+
+    if (!conversation.participants.some((p) => p.equals(req.user._id))) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    const remainingParticipants = conversation.participants.filter(
+      (participant) => !participant.equals(req.user._id)
+    );
+
+    if (remainingParticipants.length === 0) {
+      await Message.deleteMany({ conversation: conversation._id });
+      await Conversation.findByIdAndDelete(conversation._id);
+    } else {
+      conversation.participants = remainingParticipants;
+      if (conversation.admin && conversation.admin.equals(req.user._id)) {
+        conversation.admin = remainingParticipants[0];
+      }
+      await conversation.save();
+    }
+
+    res.json({ success: true, conversationId: conversation._id });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get('/:id/messages', auth, async (req, res) => {
   try {
     const conversation = await Conversation.findById(req.params.id);

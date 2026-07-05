@@ -32,6 +32,7 @@ export default function Sidebar({
   onSelect,
   onNewGroup,
   onLogout,
+  onDeleteConversation,
   connected,
 }) {
   const [query, setQuery] = useState('');
@@ -137,6 +138,19 @@ export default function Sidebar({
                 <time className="conv-time">
                   {formatDistanceToNow(new Date(c.updatedAt), { addSuffix: true })}
                 </time>
+              </button>
+              <button
+                type="button"
+                className="delete-chat-btn"
+                title={`Delete chat with ${title}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  if (window.confirm(`Delete chat with ${title}?`)) {
+                    onDeleteConversation(c._id);
+                  }
+                }}
+              >
+                Delete
               </button>
             </li>
           );
