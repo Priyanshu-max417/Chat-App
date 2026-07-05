@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { uploadFile } from '../utils/api';
-import { encryptMessage } from '../utils/encryption';
+// import { encryptMessage } from '../utils/encryption';
 
 export default function MessageInput({
   onSend,
@@ -38,10 +38,10 @@ export default function MessageInput({
     let content = text.trim();
     let encrypted = false;
 
-    if (encryptionEnabled) {
-      content = await encryptMessage(content);
-      encrypted = true;
-    }
+    // if (encryptionEnabled) {
+    //   content = await encryptMessage(content);
+    //   encrypted = true;
+    // }
 
     sendPayload({
       conversationId,

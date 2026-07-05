@@ -12,7 +12,7 @@ export default function Chat() {
   const [conversations, setConversations] = useState([]);
   const [activeConversation, setActiveConversation] = useState(null);
   const [showGroupModal, setShowGroupModal] = useState(false);
-  const [encryptionEnabled, setEncryptionEnabled] = useState(true);
+  // const [encryptionEnabled, setEncryptionEnabled] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
   const loadConversations = useCallback(async () => {
@@ -80,7 +80,7 @@ export default function Chat() {
       />
 
       <main className="chat-main">
-        <div className="chat-toolbar">
+        {/* <div className="chat-toolbar">
           <label className="toggle">
             <input
               type="checkbox"
@@ -89,13 +89,13 @@ export default function Chat() {
             />
             End-to-end encryption (AES-GCM)
           </label>
-        </div>
+        </div> */}
 
         {activeConversation ? (
           <ChatWindow
             conversation={activeConversation}
             currentUser={user}
-            encryptionEnabled={encryptionEnabled}
+            // encryptionEnabled={encryptionEnabled}
             onConversationUpdate={loadConversations}
             notify={notify}
           />

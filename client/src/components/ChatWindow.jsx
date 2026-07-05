@@ -20,7 +20,7 @@ function getTitle(conversation, currentUserId) {
 export default function ChatWindow({
   conversation,
   currentUser,
-  encryptionEnabled,
+  // encryptionEnabled,
   onConversationUpdate,
   notify,
 }) {
@@ -179,7 +179,7 @@ export default function ChatWindow({
         conversationId={conversation._id}
         socket={socket}
         onSend={handleSend}
-        encryptionEnabled={encryptionEnabled}
+        // encryptionEnabled={encryptionEnabled}
       />
 
       <CallModal

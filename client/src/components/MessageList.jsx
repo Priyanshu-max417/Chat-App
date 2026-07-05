@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { format } from 'date-fns';
-import { decryptMessage } from '../utils/encryption';
+// import { decryptMessage } from '../utils/encryption';
 
 function ReadReceipt({ message, currentUserId, participantCount }) {
   if (message.sender._id === currentUserId) {
@@ -51,10 +51,10 @@ export default function MessageList({
 
   useEffect(() => {
     messages.forEach(async (msg) => {
-      if (msg.encrypted && msg.messageType === 'text' && !decrypted[msg._id]) {
-        const text = await decryptMessage(msg.content);
-        setDecrypted((prev) => ({ ...prev, [msg._id]: text }));
-      }
+      // if (msg.encrypted && msg.messageType === 'text' && !decrypted[msg._id]) {
+      //   const text = await decryptMessage(msg.content);
+      //   setDecrypted((prev) => ({ ...prev, [msg._id]: text }));
+      // }
     });
   }, [messages]);
 
@@ -62,9 +62,7 @@ export default function MessageList({
     <div className="message-list">
       {messages.map((msg) => {
         const isMine = msg.sender._id === currentUser._id;
-        const text = msg.encrypted
-          ? decrypted[msg._id] || 'Decrypting...'
-          : msg.content;
+        const text = msg.content;
 
         return (
           <div key={msg._id} className={`message ${isMine ? 'mine' : 'theirs'}`}>
